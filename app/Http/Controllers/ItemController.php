@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 // Itemクラスを読み込む
 use App\Models\Item;
-use Illuminate\Http\Request;
+use App\Http\Requests\ItemRequest;
 use Symfony\Polyfill\Intl\Idn\Idn;
 
 use function PHPUnit\Framework\returnSelf;
@@ -25,7 +25,7 @@ class ItemController extends Controller
         return view('items.create');
     }
 
-    public function store(Request $request)
+    public function store(ItemRequest $request)
     {
         //インスタンスの作成
         $item = new Item;
@@ -57,7 +57,7 @@ class ItemController extends Controller
         return view('items.edit', ['item' => $item]);
     }
 
-    public function update(Request $request, $id)
+    public function update(ItemRequest $request, $id)
     {
         //ここはidで探し持ってくる以外はstoreと同じ
         $item = Item::find($id);
