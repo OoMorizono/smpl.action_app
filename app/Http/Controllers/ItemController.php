@@ -14,9 +14,34 @@ class ItemController extends Controller
         // モデル名::テーブル全件取得
         $items = Item::all();
         //Itemsティレクトリーの中のindexページをを指定し､itemsの連想配列を代入
-        return view ('items.index', ['items' => $items]);
+        return view('items.index', ['items' => $items]);
     }
-    // showページへ移動
+
+    public function create()
+    {
+        return view('items.create');
+    }
+
+    public function store(Request $request)
+    {
+        //インスタンスの作成
+        $item = new Item;
+
+        //値の用意
+        $item->name = $request->name;
+        $item->description = $request->description;
+        $item->price = $request->price;
+        $item->seller = $request->seller;
+        $item->email  = $request->email;
+        $item->image_url = $request->image_url;
+
+        //インスタンスに値を設定して保存
+        $item->save();
+
+        //登録したらindexに戻る
+        return redirect('/items');
+    }
+
     public function show($id)
     {
         $item = Item::find($id);
