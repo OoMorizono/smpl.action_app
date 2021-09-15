@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 // Itemクラスを読み込む
 use App\Models\Item;
 use Illuminate\Http\Request;
+use Symfony\Polyfill\Intl\Idn\Idn;
+
+use function PHPUnit\Framework\returnSelf;
 
 class ItemController extends Controller
 {
@@ -46,5 +49,39 @@ class ItemController extends Controller
     {
         $item = Item::find($id);
         return view('items.show', ['item' => $item]);
+    }
+
+    public function edit($id)
+    {
+        $item = Item::find($id);
+        return view('items.edit', ['item' => $item]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        //ここはidで探し持ってくる以外はstoreと同じ
+        $item = Item::find($id);
+
+        //値の用意
+        $item ->name = $request ->name ;
+        $item ->description = $request ->description ;
+        $item ->price = $request ->price ;
+        $item ->seller = $request ->seller ;
+        $item ->email = $request ->email ;
+        $item ->image_url = $request ->image_url ;
+        
+        //保存
+        $item->save();
+
+        //登録したらindexに戻る
+        return redirect('/items');
+    }
+
+    public function destroy($id)
+    {
+        $item = Item::find($id);
+        $item -> delete();
+        
+        return redirect('/items');
     }
 }

@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
     <title>auction</title>
 </head>
 <body>
@@ -25,5 +27,15 @@
     <p>
         <img src="{{ $item->image_url }}">
     </p>
+
+    <div class="button-group">
+        <!-- 商品idをもとに編集ページへ遷移する-->
+        <button onclick="location.href='/items/{{ $item->id }}/edit'">編集する</button>
+        <form action="/items/{{ $item->id }}" method="post">
+        @csrf
+        @method('DELETE')
+        <input type="submit" value="削除する" onclick="if(!confirm('削除しますか?')){return false};">
+        </form>
+    </div>
 </body>
 </html>
